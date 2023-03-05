@@ -46,6 +46,9 @@ public class ServletRecebeMusica extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Part upfile = request.getPart("musica");
+        String estilo =  request.getParameter("estilo");
+        String titulo =  request.getParameter("titulo");
+        String artista =  request.getParameter("artista");
         try {
 
             File pasta = new File(getServletContext().getRealPath("/") + "../../web/musicas_recebidas");
@@ -53,7 +56,7 @@ public class ServletRecebeMusica extends HttpServlet {
             OutputStream out = null;
             InputStream filecontent = null;
 
-            out = new FileOutputStream(new File(pasta.getAbsolutePath() + "/" + upfile.getSubmittedFileName()));
+            out = new FileOutputStream(new File(pasta.getAbsolutePath() + "/" + titulo + "_" + estilo + "_" + artista + ".mp3"));
             filecontent = upfile.getInputStream();
             int read = 0;
             byte[] bytes = new byte[1024];

@@ -5,10 +5,13 @@
  */
 function enviarMusica(){
     event.preventDefault(); // evita refresh da tela
-                
+    
+    
+    
    const URL_TO_FETCH = 'ServletRecebeMusica';
 
    var formData = new FormData(document.getElementById("fmusica"));
+   
    //formData.append('acao', 'confirmar'); opcional, caso queira inserir outra informação
                 
    fetch(URL_TO_FETCH, { method: 'post',body: formData 
