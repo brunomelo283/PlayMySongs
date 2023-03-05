@@ -13,7 +13,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.util.ArrayList;
+import src.MusicaGSON;
 /**
  *
  * @author Aluno
@@ -32,18 +35,53 @@ public class ServletPesquisaMusica extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String chave = request.getParameter("chave");
+
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-          File pastaweb=new File(request.getServletContext().getRealPath("")+"/musicas_recebidas");
-            for (File file : pastaweb.listFiles())
-                if(file.isFile()){
-                    response.getWriter().println(file.getName());
-                    response.getWriter().close();
-                }
-                    // se é um arquivo e não uma pasta
-//                    if(file.getName().toUpperCase().contains(chave.toUpperCase))
-                    
+            File pastaweb=new File(request.getServletContext().getRealPath("")+"/musicas_recebidas");
+
+            Gson gson=new GsonBuilder().create();
+            ArrayList array = new ArrayList<>();
+            String[] musica;
+                  
+            response.getWriter().println(request.getParameter("chave"));
+            
+            if (chave == null || chave.isEmpty()){
+                for (File file : pastaweb.listFiles())
+                    if(file.isFile()){
+                        musica = file.getName().substring(0, file.getName().lastIndexOf(".")).split("_");
+
+                        array.add(
+                                new MusicaGSON(musica[0], 
+                                               musica[2], 
+                                               musica[1],
+                                               file.getName())
+                        );
+                    }
+            }
+            else{
+                for (File file : pastaweb.listFiles())
+                    if(file.isFile()){
+                        /*if(file.getName().toLowerCase().contains(chave.toLowerCase()))
+                        {*/
+                            musica = file.getName().substring(0, file.getName().lastIndexOf(".")).split("_");
+
+                            array.add(
+                                    new MusicaGSON(musica[0], 
+                                                   musica[2], 
+                                                   musica[1],
+                                                   file.getName())
+                            );
+                        //}
+                    }
+            }
+            
+            
+            response.getWriter().println(gson.toJson(array));
+            response.getWriter().close();
         }
     }
 
