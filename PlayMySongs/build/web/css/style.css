@@ -71,3 +71,31 @@ header{
     background-color:#8c98d4 !important;
     border-color: #23273d;
 }
+
+.section{
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+
+audio {
+  width: 380px;
+  margin-bottom: 10px;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #fff;
+  color: #ccc;  
+  
+}
+
+audio::-webkit-media-controls-play-button {
+  content: '\f04b';
+  font-family: 'play';
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+}
+

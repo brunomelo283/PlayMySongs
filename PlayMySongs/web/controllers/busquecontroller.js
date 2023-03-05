@@ -1,25 +1,27 @@
 function pesquisarMusica()
 {
     let html = "";
-    let chave = document.getElementById("chave")
+    let chave = document.getElementById("chave").value;
     let div_ret = document.getElementById("resultado_pesquisa");
 
     event.preventDefault(); // evita refresh da tela
 
+    console.log(chave);
     const URL_TO_FETCH = 'ServletPesquisaMusica';
-
+    var formData = new FormData(document.getElementById("fmusica"));
     //formData.append('acao', 'confirmar'); opcional, caso queira inserir outra informação
-    
-    var msc = fetch(URL_TO_FETCH, {
+
+    fetch(URL_TO_FETCH, {
         method: 'post',
-        body: new FormData(document.getElementById("fmusica"))
+        body: formData
     }).then(function (response) {
-        return response.text();
+        console.log(response);
+        return response.json();
     }).then(retorno => {
-         console.log(retorno)
-        /*html = `   
+        console.log(retorno);
+        html = `   
         <div class="card text-center mt-5">
-            <div class="card-body">
+            <div class="card-body" id="search">
                 <table class="table table-dark table-hover">
                     <thead>
                         <tr>
@@ -31,15 +33,18 @@ function pesquisarMusica()
                     </thead>
                     </tbody>
         `
-    
+
         retorno.forEach(obj => {
-            html +=`
+            html += `
                 <tr>
                     <td>
-                        <audio controls>
-                            <source src="musicas_recebidas/${obj.arquivo}" type="audio/mpeg"> 
-                            </source>
-                        </audio>
+                        <div class="audio-player"> 
+                            <audio controls class="audio">
+                                <source src="musicas_recebidas/${obj.arquivo}" type="audio/mpeg"> 
+                                </source>
+                            </audio>
+                            
+                        </div>
                     </td>
         
                     <td>
@@ -63,7 +68,7 @@ function pesquisarMusica()
             </div>
         </div>
         `
-    
-        div_ret.innerHTML = html;*/
+
+        div_ret.innerHTML = html;
     });
 }
