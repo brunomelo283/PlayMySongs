@@ -15,14 +15,14 @@ function pesquisarMusica()
         method: 'post',
         body: formData
     }).then(function (response) {
-        console.log(response);
+        //console.log(response);
         return response.json();
     }).then(retorno => {
-        console.log(retorno);
+        //console.log(retorno);
         html = `   
         <div class="card text-center mt-5">
             <div class="card-body" id="search">
-                <table class="table table-dark table-hover">
+                <table id='lista-retorno' class="table table-dark table-hover">
                     <thead>
                         <tr>
                             <th>Play</th>
