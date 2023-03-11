@@ -80,31 +80,9 @@ header {
     margin: 0 auto;
 }
 
-
-
-audio {
-    width: 200px;
-    margin-bottom: 10px;
-}
-
-audio::-webkit-media-controls-panel {
-    background-color: #fff;
-    color: #ccc;
-
-}
-
-audio::-webkit-media-controls-play-button {
-    content: '\f04b';
-    font-family: 'play';
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 30px;
-    height: 30px;
-}
-
 table tbody {
     display: block;
-    max-height: 300px;
+    max-height: 19vh;
     overflow-y: scroll;
 }
 
@@ -114,9 +92,6 @@ table tbody tr {
     width: 100%;
     table-layout: fixed;
 }
-
-
-
 
 
 tbody::-webkit-scrollbar-track {
@@ -138,4 +113,16 @@ tbody::-webkit-scrollbar-thumb {
             color-stop(0.44, rgb(122, 153, 217)),
             color-stop(0.72, rgb(73, 125, 189)),
             color-stop(0.86, rgb(28, 58, 148)));
+}
+
+footer{
+    width: 100%;
+    background-color: red !important;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

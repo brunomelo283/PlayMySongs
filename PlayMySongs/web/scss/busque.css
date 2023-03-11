@@ -1,6 +1,6 @@
 .audio-player {
   height: 50px;
-  width: 150px;
+  width: 100%;
   background: #444;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.6666666667);
   font-family: arial;
@@ -88,7 +88,7 @@
   padding: 2px;
 }
 .audio-player .controls .volume-container {
-  cursor: pointer;
+  width: 20px;
   position: relative;
   z-index: 2;
 }
@@ -98,7 +98,11 @@
   align-items: center;
 }
 .audio-player .controls .volume-container .volume-button .volume {
-  transform: scale(0.7);
+  cursor: pointer;
+  font-size: 12.5pt;
+}
+.audio-player .controls .volume-container .volume-button .volume:hover {
+  transform: scale(1.1);
 }
 .audio-player .controls .volume-container .volume-slider {
   position: absolute;

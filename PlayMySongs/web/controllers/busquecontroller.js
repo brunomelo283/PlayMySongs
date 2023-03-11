@@ -1,3 +1,5 @@
+const audio = new Audio();
+
 function pesquisarMusica() {
     let html = "";
     let chave = document.getElementById("chave").value;
@@ -24,7 +26,6 @@ function pesquisarMusica() {
                 <table id='lista-retorno' class="table table-dark table-hover">
                     <thead>
                         <tr>
-                            <th>Play</th>
                             <th>Título</th>
                             <th>Artista</th>
                             <th>Estilo</th>
@@ -35,35 +36,7 @@ function pesquisarMusica() {
         retorno.forEach(obj => {
 
             html += `
-                <tr>
-                    <td>
-                        <div id='audio-player' class="audio-player">
-                            <div class="timeline">
-                                <div class="progress"></div>
-                            </div>
-                            <div class="controls">
-                                <div class="play-container">
-                                    <div class="toggle-play play"></div>
-                                </div>
-                                <div class="volume-container">
-                                    <div class="volume-button">
-                                        <div class="volume icono-volumeMedium"></div>
-                                    </div>
-                            
-                                    <div class="volume-slider">
-                                        <div class="volume-percentage"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="time">
-                                <div class="current">0:00</div>
-                                <div class="divider">/</div>
-                                <div class="length"></div>
-                            </div>
-                        </div>
-                    </td>
-        
+                <tr onclick='funcoesAudio("${obj.titulo}", "${obj.arquivo}")'>     
                     <td>
                         ${obj.titulo}
                     </td>
@@ -86,15 +59,10 @@ function pesquisarMusica() {
         `
 
         div_ret.innerHTML = html;
-
-        let i = 0;
-        retorno.forEach(obj => {
-            funcoesAudio(i++, obj.arquivo);
-        })
     });
 }
 
-function funcoesAudio(seq, music) {
+function funcoesAudio(titulo, music) {
     //example https://codepen.io/EmNudge/pen/rRbLJQ
     // Possible improvements:
     // - Change timeline and volume slider into input sliders, reskinned
@@ -102,25 +70,31 @@ function funcoesAudio(seq, music) {
     // - Be able to grab a custom title instead of "Music Song"
     // - Hover over sliders to see preview of timestamp/volume change
 
-    const audioPlayer = document.querySelectorAll(`.audio-player`)[seq];
-    const audio = new Audio("musicas_recebidas/" + music);
+    const audioPlayer = document.querySelector(`.audio-player`);
+
+    const timeline = audioPlayer.querySelector(".timeline");
+    const volumeSlider = audioPlayer.querySelector(".controls .volume-slider");
+    const musica = audioPlayer.querySelector(".controls .name");
+    const playBtn = audioPlayer.querySelector(".controls .toggle-play");
+    const progressBar = audioPlayer.querySelector(".progress");
+    const volumeEl = audioPlayer.querySelector(".volume-container .volume");
+
     //credit for song: Adrian kreativaweb@gmail.com
-
-    console.dir(audio);
-
+    audio.src = "musicas_recebidas/" + music
     audio.addEventListener(
         "loadeddata",
         () => {
-            audioPlayer.querySelector(".time .length").textContent = getTimeCodeFromNum(
+            audioPlayer.querySelector(".time .length").textContent = 
+            getTimeCodeFromNum(
                 audio.duration
             );
             audio.volume = .75;
+            musica.innerHTML = titulo
         },
         false
     );
 
     //click on timeline to skip around
-    const timeline = audioPlayer.querySelector(".timeline");
     timeline.addEventListener("click", e => {
         const timelineWidth = window.getComputedStyle(timeline).width;
         const timeToSeek = e.offsetX / parseInt(timelineWidth) * audio.duration;
@@ -128,7 +102,6 @@ function funcoesAudio(seq, music) {
     }, false);
 
     //click volume slider to change volume
-    const volumeSlider = audioPlayer.querySelector(".controls .volume-slider");
     volumeSlider.addEventListener('click', e => {
         const sliderWidth = window.getComputedStyle(volumeSlider).width;
         const newVolume = e.offsetX / parseInt(sliderWidth);
@@ -138,15 +111,12 @@ function funcoesAudio(seq, music) {
 
     //check audio percentage and update time accordingly
     setInterval(() => {
-        const progressBar = audioPlayer.querySelector(".progress");
         progressBar.style.width = audio.currentTime / audio.duration * 100 + "%";
         audioPlayer.querySelector(".time .current").textContent = getTimeCodeFromNum(
             audio.currentTime
         );
     }, 500);
 
-    //toggle between playing and pausing on button click
-    const playBtn = audioPlayer.querySelector(".controls .toggle-play");
     playBtn.addEventListener(
         "click",
         () => {
@@ -163,29 +133,39 @@ function funcoesAudio(seq, music) {
         false
     );
 
-    audioPlayer.querySelector(".volume-button").addEventListener("click", () => {
-        const volumeEl = audioPlayer.querySelector(".volume-container .volume");
+    audioPlayer.querySelector(".fa-solid").addEventListener("click", () => {
+        let icon = volumeEl.children[0];
+
         audio.muted = !audio.muted;
+        
         if (audio.muted) {
-            volumeEl.classList.remove("icono-volumeMedium");
-            volumeEl.classList.add("icono-volumeMute");
+            icon.classList.remove(`fa-volume-high`)
+            icon.classList.add(`fa-volume-xmark`)
         } else {
-            volumeEl.classList.add("icono-volumeMedium");
-            volumeEl.classList.remove("icono-volumeMute");
+            icon.classList.add(`fa-volume-high`)
+            icon.classList.remove(`fa-volume-xmark`)
         }
     });
 
-    //turn 128 seconds into 2:08
-    function getTimeCodeFromNum(num) {
-        let seconds = parseInt(num);
-        let minutes = parseInt(seconds / 60);
-        seconds -= minutes * 60;
-        const hours = parseInt(minutes / 60);
-        minutes -= hours * 60;
+    audio.addEventListener("canplaythrough", () =>{
+        audio.play()
+        playBtn.classList.remove("play");
+        playBtn.classList.add("pause");
+    })
 
-        if (hours === 0) return `${minutes}:${String(seconds % 60).padStart(2, 0)}`;
-        return `${String(hours).padStart(2, 0)}:${minutes}:${String(
-            seconds % 60
-        ).padStart(2, 0)}`;
-    }
+
+}
+
+//turn 128 seconds into 2:08
+function getTimeCodeFromNum(num) {
+    let seconds = parseInt(num);
+    let minutes = parseInt(seconds / 60);
+    seconds -= minutes * 60;
+    const hours = parseInt(minutes / 60);
+    minutes -= hours * 60;
+
+    if (hours === 0) return `${minutes}:${String(seconds % 60).padStart(2, 0)}`;
+    return `${String(hours).padStart(2, 0)}:${minutes}:${String(
+        seconds % 60
+    ).padStart(2, 0)}`;
 }
