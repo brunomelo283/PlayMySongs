@@ -13,6 +13,20 @@ and open the template in the editor.
     padding: 0px;
 }
 
+.Retornar{
+    position: fixed;
+    top: 1.2ch;
+    left: 2ch;
+    font-size: 2.3em;
+
+
+    color: white;
+    border-radius: 5px;
+}
+
+.errorValue{
+    border: 1.2px solid red;
+}
 
 .fundo-transparente {
     position: fixed;
@@ -97,22 +111,16 @@ table tbody tr {
 tbody::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #F5F5F5;
-    border-radius: 10px;
 }
 
 tbody::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
     background-color: #F5F5F5;
 }
 
 tbody::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-image: -webkit-gradient(linear,
-            left bottom,
-            left top,
-            color-stop(0.44, rgb(122, 153, 217)),
-            color-stop(0.72, rgb(73, 125, 189)),
-            color-stop(0.86, rgb(28, 58, 148)));
+    background: rgb(23, 50, 99);
+    background: linear-gradient(90deg, rgba(23, 50, 99, 1) 0%, rgba(100, 97, 180, 1) 8%, rgba(81, 100, 184, 1) 27%, rgba(70, 101, 186, 1) 35%, rgba(92, 98, 182, 1) 52%, rgba(96, 98, 181, 1) 57%, rgba(119, 95, 176, 1) 74%, rgba(125, 94, 175, 1) 88%, rgba(42, 67, 124, 1) 100%, rgba(23, 50, 99, 1) 100%);
 }
 
 footer{

@@ -70,15 +70,17 @@ function funcoesAudio(titulo, music) {
     // - Be able to grab a custom title instead of "Music Song"
     // - Hover over sliders to see preview of timestamp/volume change
 
-    const audioPlayer = document.querySelector(`.audio-player`);
+    const audioPlayer = document.querySelector(".audio-player");
 
     const timeline = audioPlayer.querySelector(".timeline");
     const volumeSlider = audioPlayer.querySelector(".controls .volume-slider");
     const musica = audioPlayer.querySelector(".controls .name");
     const playBtn = audioPlayer.querySelector(".controls .toggle-play");
-    const progressBar = audioPlayer.querySelector(".progress");
+    const progressBar = audioPlayer.querySelector("#progress");
     const volumeEl = audioPlayer.querySelector(".volume-container .volume");
 
+
+    audioPlayer.style.display = "";
     //credit for song: Adrian kreativaweb@gmail.com
     audio.src = "musicas_recebidas/" + music
     audio.addEventListener(
@@ -111,31 +113,33 @@ function funcoesAudio(titulo, music) {
 
     //check audio percentage and update time accordingly
     setInterval(() => {
-        progressBar.style.width = audio.currentTime / audio.duration * 100 + "%";
+        let perc = audio.currentTime / audio.duration * 100
+        progressBar.style.width = perc + "%";
+
+        if (perc >= 100){
+            progressBar.classList.remove("progressRadius")
+            audioWillPause(1);
+        }
+        else{ 
+            progressBar.classList.add("progressRadius")
+        }
+
         audioPlayer.querySelector(".time .current").textContent = getTimeCodeFromNum(
             audio.currentTime
         );
+
     }, 500);
 
     playBtn.addEventListener(
         "click",
         () => {
-            if (audio.paused) {
-                playBtn.classList.remove("play");
-                playBtn.classList.add("pause");
-                audio.play();
-            } else {
-                playBtn.classList.remove("pause");
-                playBtn.classList.add("play");
-                audio.pause();
-            }
+            audioWillPause(!audio.paused);
         },
         false
     );
 
     audioPlayer.querySelector(".fa-solid").addEventListener("click", () => {
         let icon = volumeEl.children[0];
-
         audio.muted = !audio.muted;
         
         if (audio.muted) {
@@ -148,14 +152,22 @@ function funcoesAudio(titulo, music) {
     });
 
     audio.addEventListener("canplaythrough", () =>{
-        audio.play()
-        playBtn.classList.remove("play");
-        playBtn.classList.add("pause");
+        audioWillPause(0);
     })
 
-
+    function audioWillPause(willPause){
+        if (willPause){
+            playBtn.classList.remove("pause");
+            playBtn.classList.add("play");
+            audio.pause();
+        }
+        else{
+            playBtn.classList.remove("play");
+            playBtn.classList.add("pause");
+            audio.play();
+        }
+    }
 }
-
 //turn 128 seconds into 2:08
 function getTimeCodeFromNum(num) {
     let seconds = parseInt(num);

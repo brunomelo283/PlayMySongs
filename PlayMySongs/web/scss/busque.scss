@@ -7,10 +7,17 @@
 //   background: linear-gradient(to bottom right, #b968c5, skyblue);
 // }
 
+.progressRadius{
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
 .audio-player {
   height: 50px;
   width: 100%;
-  background: #444;
+  background: rgb(31, 53, 94);
+  background: linear-gradient(90deg, rgba(31, 53, 94, 1) 4%, rgba(55, 85, 138, 1) 38%, rgba(42, 67, 124, 1) 80%);
+  
   box-shadow: 0 0 20px 0 #000a;
 
   font-family: arial;
@@ -28,8 +35,10 @@
     cursor: pointer;
     box-shadow: 0 2px 10px 0 #0008;
 
-    .progress {
-      background: coral;
+    #progress {
+      background: rgb(23, 50, 99);
+      background: linear-gradient(90deg, rgba(23, 50, 99, 1) 0%, rgba(100, 97, 180, 1) 8%, rgba(81, 100, 184, 1) 27%, rgba(70, 101, 186, 1) 35%, rgba(92, 98, 182, 1) 52%, rgba(96, 98, 181, 1) 57%, rgba(119, 95, 176, 1) 74%, rgba(125, 94, 175, 1) 88%, rgba(42, 67, 124, 1) 100%, rgba(23, 50, 99, 1) 100%);
+
       width: 0%;
       height: 100%;
       transition: 0.25s;
@@ -157,6 +166,7 @@
         .volume-slider {
           left: -123px;
           width: 120px;
+          cursor:pointer;
         }
       }
     }

@@ -27,8 +27,7 @@ public class MusicaGSON {
     public String getArquivo() {
         return arquivo;
     }
-     
-     
+
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
@@ -36,7 +35,7 @@ public class MusicaGSON {
     public void setArtista(String artista) {
         this.artista = artista;
     }
-    
+
     public void setEstilo(String estilo) {
         this.estilo = estilo;
     }
@@ -44,7 +43,7 @@ public class MusicaGSON {
     public void setArquivo(String arquivo) {
         this.arquivo = arquivo;
     }
-        
+
 
     public MusicaGSON(String titulo, String artista, String estilo, String arquivo) {
         this.titulo = titulo;
