@@ -46,30 +46,38 @@ public class ServletRecebeMusica extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Part upfile = request.getPart("musica");
-        String estilo =  request.getParameter("estilo");
-        String titulo =  request.getParameter("titulo");
-        String artista =  request.getParameter("artista");
+        String estilo = request.getParameter("estilo");
+        String titulo = request.getParameter("titulo");
+        String artista = request.getParameter("artista");
+
+        String nomeArquivoEnv = request.getPart("musica").getSubmittedFileName();
         try {
             //testes
-            File pasta = new File(getServletContext().getRealPath("/") + "../../web/musicas_recebidas");
-            pasta.mkdir();
-            OutputStream out = null;
-            InputStream filecontent = null;
+            if (!nomeArquivoEnv.toUpperCase().endsWith(".MP3")) {
+                response.getWriter().print("false");
+                response.getWriter().close();
+            } else {
+                File pasta = new File(getServletContext().getRealPath("/") + "../../web/musicas_recebidas");
+                pasta.mkdir();
+                OutputStream out = null;
+                InputStream filecontent = null;
 
-            out = new FileOutputStream(new File(pasta.getAbsolutePath() + "/" + titulo + "_" + estilo + "_" + artista + ".mp3"));
-            filecontent = upfile.getInputStream();
-            int read = 0;
-            byte[] bytes = new byte[1024];
-            while ((read = filecontent.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
+                out = new FileOutputStream(new File(pasta.getAbsolutePath() + "/" + titulo + "_" + estilo + "_" + artista + ".mp3"));
+                filecontent = upfile.getInputStream();
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                while ((read = filecontent.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+
+                response.getWriter().print("true");
+                out.close();
+                filecontent.close();
+                response.getWriter().close();
             }
 
-            response.getWriter().println("Novo arquivo " + upfile.getSubmittedFileName() + " criado na pasta " + pasta);
-            out.close();
-            filecontent.close();
-            response.getWriter().close();
         } catch (Exception e) {
-            response.getWriter().println("Erro ao receber o arquivo " + e);
+            response.getWriter().print("false");
         }
     }
 
