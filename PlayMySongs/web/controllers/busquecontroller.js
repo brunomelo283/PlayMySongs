@@ -77,19 +77,23 @@ function funcoesAudio(titulo, music) {
     audioPlayer.style.display = "";
     audio.src = "musicas_recebidas/" + music
 
-        
+    
     playBtn.addEventListener(
         "click",
-        () => {
-            audioWillPause(!audio.paused);
+         (e) => {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            audioWillPause(!audio.paused);        
+             
+                                        
         },
         false
     );
-
+   
     audioPlayer.querySelector(".fa-solid").addEventListener("click", () => {
         let icon = volumeEl.children[0];
         audio.muted = !audio.muted;
-        
+
         if (audio.muted) {
             icon.classList.remove(`fa-volume-high`)
             icon.classList.add(`fa-volume-xmark`)
@@ -131,11 +135,11 @@ function funcoesAudio(titulo, music) {
         let perc = audio.currentTime / audio.duration * 100
         progressBar.style.width = perc + "%";
 
-        if (perc >= 100){
+        if (perc >= 100) {
             progressBar.classList.remove("progressRadius")
             audioWillPause(1);
         }
-        else{ 
+        else {
             progressBar.classList.add("progressRadius")
         }
 
@@ -145,21 +149,31 @@ function funcoesAudio(titulo, music) {
 
     }, 500);
 
-    audio.addEventListener("canplaythrough", () =>{
+
+
+
+    audio.addEventListener("canplaythrough", (e) => {
+       
         audioWillPause(0);
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+       
+        
     })
 
-    function audioWillPause(willPause){
-        if (willPause){
+    function audioWillPause(willPause) {
+        console.log(willPause);
+        if (willPause) {
             playBtn.classList.remove("pause");
             playBtn.classList.add("play");
             audio.pause();
         }
-        else{
+        else {
             playBtn.classList.remove("play");
             playBtn.classList.add("pause");
             audio.play();
         }
+        
     }
 }
 //turn 128 seconds into 2:08
