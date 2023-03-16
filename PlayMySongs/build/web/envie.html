@@ -38,7 +38,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <label for="estilo">
-                                                <p>Estilo: </p>
+                                                <p>Estilo</p>
                                             </label>
                                             <select id="estilo" name="estilo" class="form-select errorValue" required onblur="validaCampos(this)">
                                                 <option value=""></option>
@@ -57,23 +57,23 @@
                                     <div class="row mt-4">                                        
                                         <div class="col-md-6" >
                                             <label for="titulo">
-                                                <p>Nome da Música: </p>
+                                                <p>Nome da Música</p>
                                             </label>
-                                            <input id="titulo" type="text" name="titulo" class="form-control" required onblur="validaCampos(this)"/>
+                                            <input id="titulo" type="text" name="titulo" class="form-control errorValue" required onblur="validaCampos(this)"/>
                                         </div>
                                         <div class="col-md-6" >
                                             <label for="artista">
-                                                <p>Cantor: </p>
+                                                <p>Cantor</p>
                                             </label>
-                                            <input id="artista" type="text" name="artista" class="form-control" required onblur="validaCampos(this)"/>
+                                            <input id="artista" type="text" name="artista" class="form-control errorValue" required onblur="validaCampos(this)"/>
                                         </div>
                                     </div>
                                     <div class="row mt-4">                                        
                                         <div class="col-md-12" >
                                             <label for="musica">
-                                                <p>Enviar Arquivo: </p>
+                                                <p>Enviar Arquivo</p>
                                             </label>
-                                            <input id="musica" type="file" name="musica" class="form-control" required onblur="validaCampos(this)" accept=".mp3"/>
+                                            <input id="musica" type="file" name="musica" class="form-control errorValue" required onblur="validaCampos(this)" accept=".mp3"/>
                                         </div>                                        
                                         <button type="button" class="btn btn-info mt-5" onclick="onValidating()"> Enviar </button>
                                     </div>                                                                        
