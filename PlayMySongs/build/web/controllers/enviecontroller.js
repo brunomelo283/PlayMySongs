@@ -71,19 +71,28 @@ function validaCampos(elem) {
 
 function onValidating() {
      //event.preventDefault(); // evita refresh da tela
-     //let form = document.querySelector("#fmusica")
-     let arquivo = document.querySelector("#musica").value
+     let campos = document.querySelectorAll(".errorValue")
+     let erro = "";
 
-     if (!ArquivoValido(arquivo)) {
+     campos.forEach((elem) =>{
+
+          if (elem.id == "musica" && !ArquivoValido(elem.value)){
+               erro += "<br>Não podemos enviar este tipo de arquivo.<br>Tente um com extensão .MP3 :)"
+          }else{
+               erro +="<br>Campo "+elem.innerText+" obrigatório"
+          }
+     })
+
+
+     if (erro != ""){
           Swal.fire({
                icon: 'error',
                title: 'Oops...',
-               html: 'Não podemos enviar este tipo de arquivo.<br>Tente um com extensão .MP3 :)'
+               html: erro
           }).then((result) => {
 
           })
-     }
-     else {
+     }else{
           enviarMusica();
      }
 }

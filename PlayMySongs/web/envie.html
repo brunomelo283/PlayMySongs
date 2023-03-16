@@ -40,7 +40,7 @@
                                             <label for="estilo">
                                                 <p>Estilo: </p>
                                             </label>
-                                            <select id="estilo" name="estilo" class="form-select" required onblur="validaCampos(this)">
+                                            <select id="estilo" name="estilo" class="form-select errorValue" required onblur="validaCampos(this)">
                                                 <option value=""></option>
                                                 <option value="Eletronica">Eletronica</option>
                                                 <option value="Funk">Funk</option>
@@ -62,7 +62,7 @@
                                             <input id="titulo" type="text" name="titulo" class="form-control" required onblur="validaCampos(this)"/>
                                         </div>
                                         <div class="col-md-6" >
-                                            <label for="titulo">
+                                            <label for="artista">
                                                 <p>Cantor: </p>
                                             </label>
                                             <input id="artista" type="text" name="artista" class="form-control" required onblur="validaCampos(this)"/>
@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="row mt-4">                                        
                                         <div class="col-md-12" >
-                                            <label for="titulo">
+                                            <label for="musica">
                                                 <p>Enviar Arquivo: </p>
                                             </label>
                                             <input id="musica" type="file" name="musica" class="form-control" required onblur="validaCampos(this)" accept=".mp3"/>
