@@ -1,4 +1,5 @@
 const audio = new Audio();
+audio.volume = .75;
 
 function pesquisarMusica() {
     let html = "";
@@ -7,7 +8,6 @@ function pesquisarMusica() {
 
     event.preventDefault(); // evita refresh da tela
 
-    console.log(chave);
     const URL_TO_FETCH = 'ServletPesquisaMusica';
     var formData = new FormData(document.getElementById("fmusica"));
     //formData.append('acao', 'confirmar'); opcional, caso queira inserir outra informação
@@ -62,13 +62,8 @@ function pesquisarMusica() {
     });
 }
 
+
 function funcoesAudio(titulo, music) {
-    //example https://codepen.io/EmNudge/pen/rRbLJQ
-    // Possible improvements:
-    // - Change timeline and volume slider into input sliders, reskinned
-    // - Change into Vue or React component
-    // - Be able to grab a custom title instead of "Music Song"
-    // - Hover over sliders to see preview of timestamp/volume change
 
     const audioPlayer = document.querySelector(".audio-player");
 
@@ -79,24 +74,44 @@ function funcoesAudio(titulo, music) {
     const progressBar = audioPlayer.querySelector("#progress");
     const volumeEl = audioPlayer.querySelector(".volume-container .volume");
 
-
     audioPlayer.style.display = "";
-    //credit for song: Adrian kreativaweb@gmail.com
     audio.src = "musicas_recebidas/" + music
+
+        
+    playBtn.addEventListener(
+        "click",
+        () => {
+            audioWillPause(!audio.paused);
+        },
+        false
+    );
+
+    audioPlayer.querySelector(".fa-solid").addEventListener("click", () => {
+        let icon = volumeEl.children[0];
+        audio.muted = !audio.muted;
+        
+        if (audio.muted) {
+            icon.classList.remove(`fa-volume-high`)
+            icon.classList.add(`fa-volume-xmark`)
+        } else {
+            icon.classList.add(`fa-volume-high`)
+            icon.classList.remove(`fa-volume-xmark`)
+        }
+    });
+
+
     audio.addEventListener(
         "loadeddata",
         () => {
-            audioPlayer.querySelector(".time .length").textContent = 
-            getTimeCodeFromNum(
+            audioPlayer.querySelector(".time .length").textContent = getTimeCodeFromNum(
                 audio.duration
             );
-            audio.volume = .75;
+
             musica.innerHTML = titulo
         },
         false
     );
 
-    //click on timeline to skip around
     timeline.addEventListener("click", e => {
         const timelineWidth = window.getComputedStyle(timeline).width;
         const timeToSeek = e.offsetX / parseInt(timelineWidth) * audio.duration;
@@ -129,27 +144,6 @@ function funcoesAudio(titulo, music) {
         );
 
     }, 500);
-
-    playBtn.addEventListener(
-        "click",
-        () => {
-            audioWillPause(!audio.paused);
-        },
-        false
-    );
-
-    audioPlayer.querySelector(".fa-solid").addEventListener("click", () => {
-        let icon = volumeEl.children[0];
-        audio.muted = !audio.muted;
-        
-        if (audio.muted) {
-            icon.classList.remove(`fa-volume-high`)
-            icon.classList.add(`fa-volume-xmark`)
-        } else {
-            icon.classList.add(`fa-volume-high`)
-            icon.classList.remove(`fa-volume-xmark`)
-        }
-    });
 
     audio.addEventListener("canplaythrough", () =>{
         audioWillPause(0);

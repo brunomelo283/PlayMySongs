@@ -57,7 +57,7 @@ function validaCampos(elem) {
 
      if (elem.id != "musica") {
           if (elem.nodeName != "SELECT")
-               elem.value = elem.value.normalize("NFD").replace(/[^a-zA-Z\s]/g, "");
+               elem.value = tiraAcentos(elem.value);
           
           elem.classList.remove("errorValue")
           return true;
@@ -67,6 +67,10 @@ function validaCampos(elem) {
           elem.classList.remove("errorValue")
           return true
      }
+}
+
+function tiraAcentos(string){
+     return string.normalize("NFD").replace(/[^a-zA-Z0-9\s]/g, "")
 }
 
 function onValidating() {
@@ -79,16 +83,18 @@ function onValidating() {
           if (elem.id == "musica" && !ArquivoValido(elem.value)){
                erro += "<br>Não podemos enviar este tipo de arquivo.<br>Tente um com extensão .MP3 :)"
           }else{
-               erro +="<br>Campo "+elem.innerText+" obrigatório"
+               if (elem.nodeName != "SELECT")
+                    elem.value = tiraAcentos(elem.value);
+
+               erro +="<br>Campo "+elem.labels[0].innerText+" obrigatório!"
           }
      })
-
 
      if (erro != ""){
           Swal.fire({
                icon: 'error',
                title: 'Oops...',
-               html: erro
+               html: erro.substring(4)
           }).then((result) => {
 
           })
