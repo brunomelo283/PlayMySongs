@@ -36,7 +36,12 @@ function pesquisarMusica() {
         retorno.forEach(obj => {
 
             html += `
-                <tr onclick='funcoesAudio("${obj.titulo}", "${obj.arquivo}")'>     
+                <tr 
+                    title='Clique para tocar esta música' 
+                    onclick='funcoesAudio(this)'>
+
+                    <input type='hidden' value='${obj.arquivo}'>
+                    
                     <td>
                         ${obj.titulo}
                     </td>
@@ -63,7 +68,7 @@ function pesquisarMusica() {
 }
 
 
-function funcoesAudio(titulo, music) {
+function funcoesAudio(elem) {
 
     const audioPlayer = document.querySelector(".audio-player");
 
@@ -74,6 +79,10 @@ function funcoesAudio(titulo, music) {
     const progressBar = audioPlayer.querySelector("#progress");
     const volumeEl = audioPlayer.querySelector(".volume-container .volume");
 
+    let music = elem.children[0].value;
+    let titulo = elem.children[1].innerText
+    let artista = elem.children[2].innerText
+
     audioPlayer.style.display = "";
     audio.src = "musicas_recebidas/" + music
 
@@ -83,9 +92,7 @@ function funcoesAudio(titulo, music) {
          (e) => {
             e.stopImmediatePropagation();
             e.stopPropagation();
-            audioWillPause(!audio.paused);        
-             
-                                        
+            audioWillPause(!audio.paused);                     
         },
         false
     );
@@ -111,7 +118,7 @@ function funcoesAudio(titulo, music) {
                 audio.duration
             );
 
-            musica.innerHTML = titulo
+            musica.innerHTML = titulo + " - "+ artista
         },
         false
     );

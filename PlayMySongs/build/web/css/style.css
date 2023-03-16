@@ -134,3 +134,7 @@ footer{
     align-items: center;
     justify-content: center;
 }
+
+#lista-retorno tbody tr{
+    cursor: pointer;
+}
